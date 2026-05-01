@@ -15,6 +15,76 @@ Mantenga una URL estable (por ejemplo `policiesprivacy.info.girasindomito.cl` o 
 
 ## Opciones de hosting
 
+### Hosting compartido (FTP / cPanel)
+
+Este sitio **no usa PHP ni base de datos**: solo son archivos estáticos. Lo habitual es que “no funcione” por **ubicación**, **nombre del índice** o **falta la carpeta `assets/`**.
+
+#### 1. Dónde subir los archivos
+
+En la mayoría de hostings la web pública es una de estas carpetas (conéctese por FTP y compruebe cuál existe):
+
+| Carpeta típica | Uso |
+| ---------------- | --- |
+| `public_html/` | Raíz del dominio principal (`https://tudominio.cl/`) |
+| `www/` | A veces es un acceso directo igual a `public_html` |
+| `domains/tudominio.cl/public_html/` | Multidominio en algunos paneles |
+
+Debe existir **exactamente** esta estructura **dentro** de esa carpeta (o dentro de una subcarpeta si publica solo la política, p. ej. `public_html/privacidad/`):
+
+```text
+public_html/
+├── index.html
+└── assets/
+    └── gi-logo.png
+```
+
+**Importante:** si sube solo `index.html` y el logo lo deja suelto al lado sin carpeta `assets`, la imagen dará **404** y parecerá rota la cabecera. Use el cliente FTP en modo que **preserve carpetas** (no aplastar todo en un solo directorio).
+
+#### 2. Documento índice del servidor
+
+El servidor debe servir `index.html` cuando entras a la URL sin archivo (por ejemplo `https://tudominio.cl/`).
+
+En **cPanel** → *Preferencias del índice* / *Indexes* o *DirectoryIndex*: incluya `index.html` primero (antes que `index.php` si hace falta).
+
+Prueba directa en el navegador:
+
+```text
+https://tudominio.cl/index.html
+```
+
+Si esa URL **sí** muestra la política pero `https://tudominio.cl/` no, el problema es solo la configuración del índice.
+
+#### 3. Sitio en una subcarpeta
+
+Si los archivos están en `public_html/privacidad/`:
+
+- La URL correcta es `https://tudominio.cl/privacidad/` o `https://tudominio.cl/privacidad/index.html`.
+- Las rutas relativas del proyecto (`./assets/gi-logo.png`) siguen siendo válidas respecto a esa carpeta; no cambie el HTML solo por estar en subcarpeta.
+
+#### 4. Modo de transferencia FTP
+
+Use transferencia **binaria** (o automática) para `gi-logo.png`. En modo ASCII incorrecto la imagen puede corromperse.
+
+#### 5. Permisos
+
+Valores habituales: archivos **644**, carpetas **755**.
+
+#### 6. Comprobación rápida
+
+1. Abrir DevTools del navegador (F12) → pestaña **Red / Network**.
+2. Recargar la página.
+3. Si `gi-logo.png` sale en **404**, falta la ruta `assets/gi-logo.png` en el servidor o está mal escrita (mayúsculas/minúsculas: en Linux `Assets` ≠ `assets`).
+
+#### 7. “Sigo viendo la versión antigua” tras subir archivos
+
+Muchos hostings envían `Cache-Control` largo (por ejemplo **7 días**) para HTML. El archivo nuevo puede estar en el servidor, pero el navegador muestra una copia vieja.
+
+- Prueba **recarga forzada** (`Ctrl+Shift+R` / `Cmd+Shift+R`) o **ventana privada**.
+- Si el hosting tiene **caché** (LiteSpeed, Cloudflare, etc.), use **purga / limpiar caché**.
+- Opcional: suba también el **[`.htaccess`](../.htaccess)** de la raíz del repo para intentar desactivar caché agresiva solo en `index.html` (Apache + `mod_headers`).
+
+Detalle en [`CACHE-NAVEGADOR-Y-HOSTING.md`](CACHE-NAVEGADOR-Y-HOSTING.md).
+
 ### Amazon S3 + CloudFront
 
 1. Cree un bucket configurado para hosting estático o sirva objetos detrás de **CloudFront**.

@@ -2,6 +2,13 @@
 
 Todos los cambios relevantes del **repositorio** (estructura y documentación) se registran aquí. El texto legal detallado se audita también por fecha en el badge de [`index.html`](index.html).
 
+## [1.0.1] — 2026-05-01
+
+### Añadido
+
+- `.htaccess` opcional para limitar caché de `index.html` en Apache.
+- `docs/CACHE-NAVEGADOR-Y-HOSTING.md` y enlaces desde despliegue e índice de docs.
+
 ## [1.0.0] — 2026-05-01
 
 ### Añadido

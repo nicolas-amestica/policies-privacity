@@ -12,6 +12,7 @@ policies-privacy/
 ├── package.json             # Scripts opcionales de vista previa local
 ├── .gitignore
 ├── .editorconfig
+├── .htaccess                # Opcional (Apache): menos caché en index.html tras FTP
 ├── index.html               # Política completa + CSS inline
 ├── assets/
 │   ├── README.md            # Recursos estáticos
@@ -19,8 +20,9 @@ policies-privacy/
 └── docs/
     ├── README.md            # Índice de documentación
     ├── DESPLIEGUE.md        # Opciones de publicación (S3, CDN, etc.)
-    ├── MANTENIMIENTO.md    # Actualizar texto, fechas y revisiones
-    └── FUENTES-DEL-CONTENIDO.md  # Alineación con el portal administrativo
+    ├── MANTENIMIENTO.md           # Actualizar texto, fechas y revisiones
+    ├── FUENTES-DEL-CONTENIDO.md   # Alineación con el portal administrativo
+    └── CACHE-NAVEGADOR-Y-HOSTING.md  # Caché tras despliegue FTP
 ```
 
 ## Requisitos
